@@ -1,0 +1,52 @@
+alloca.out (list length = 100000):
+0.16 real	0.12 user	0.04 sys	64532 memory (KB)
+0.16 real	0.12 user	0.03 sys	65680 memory (KB)
+0.16 real	0.11 user	0.05 sys	65696 memory (KB)
+0.17 real	0.12 user	0.04 sys	65684 memory (KB)
+0.16 real	0.11 user	0.04 sys	64532 memory (KB)
+0.16 real	0.11 user	0.04 sys	65104 memory (KB)
+0.16 real	0.11 user	0.05 sys	65680 memory (KB)
+0.16 real	0.11 user	0.04 sys	65116 memory (KB)
+0.16 real	0.12 user	0.03 sys	65688 memory (KB)
+0.18 real	0.12 user	0.06 sys	65676 memory (KB)
+ min: 0.160000  avg: 0.163000  max: 0.180000
+
+list.out (list length = 100000):
+0.19 real	0.13 user	0.05 sys	67980 memory (KB)
+0.19 real	0.14 user	0.04 sys	67984 memory (KB)
+0.18 real	0.13 user	0.04 sys	67980 memory (KB)
+0.19 real	0.14 user	0.05 sys	67416 memory (KB)
+0.17 real	0.13 user	0.03 sys	67408 memory (KB)
+0.17 real	0.13 user	0.03 sys	67400 memory (KB)
+0.17 real	0.14 user	0.02 sys	67412 memory (KB)
+0.17 real	0.14 user	0.03 sys	66836 memory (KB)
+0.17 real	0.13 user	0.03 sys	67412 memory (KB)
+0.17 real	0.14 user	0.03 sys	66840 memory (KB)
+ min: 0.170000  avg: 0.177000  max: 0.190000
+
+malloc.out (list length = 100000):
+0.17 real	0.13 user	0.03 sys	65692 memory (KB)
+0.16 real	0.12 user	0.03 sys	64532 memory (KB)
+0.16 real	0.12 user	0.03 sys	64516 memory (KB)
+0.16 real	0.12 user	0.03 sys	65680 memory (KB)
+0.16 real	0.13 user	0.03 sys	65680 memory (KB)
+0.18 real	0.14 user	0.04 sys	65096 memory (KB)
+0.17 real	0.12 user	0.04 sys	65116 memory (KB)
+0.18 real	0.13 user	0.05 sys	64524 memory (KB)
+0.18 real	0.12 user	0.05 sys	65112 memory (KB)
+0.17 real	0.12 user	0.04 sys	65680 memory (KB)
+ min: 0.160000  avg: 0.169000  max: 0.180000
+
+new.out (list length = 100000):
+0.19 real	0.14 user	0.04 sys	67420 memory (KB)
+0.18 real	0.13 user	0.03 sys	67988 memory (KB)
+0.17 real	0.13 user	0.03 sys	66832 memory (KB)
+0.19 real	0.13 user	0.06 sys	66840 memory (KB)
+0.17 real	0.13 user	0.03 sys	67980 memory (KB)
+0.17 real	0.13 user	0.03 sys	67412 memory (KB)
+0.18 real	0.13 user	0.03 sys	67412 memory (KB)
+0.17 real	0.13 user	0.03 sys	67404 memory (KB)
+0.19 real	0.15 user	0.03 sys	67404 memory (KB)
+0.19 real	0.14 user	0.04 sys	67996 memory (KB)
+ min: 0.170000  avg: 0.180000  max: 0.190000
+
