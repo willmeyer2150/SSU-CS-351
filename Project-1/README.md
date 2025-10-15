@@ -5,10 +5,10 @@
 
 | Program    | Avg (s) | Min (s) | Max (s) | Notes                         |
 |------------|---------|---------|---------|-------------------------------|
-| alloca.out | 0.440   | 0.450   | 0.460   | Second                        |
-| malloc.out | 0.380   | 0.415   | 0.430   | Fastest                       |
-| list.out   | 1.500   | 1.594   | 1.694   | Third                         |
-| new.out    | 1.580   | 1.614   | 1.630   | Fourth                        | 
+| alloca.out | 0.450   | 0.440   | 0.460   | Second                        |
+| malloc.out | 0.415   | 0.380   | 0.430   | Fastest                       |
+| list.out   | 1.594   | 1.500   | 1.640   | Third                         |
+| new.out    | 1.614   | 1.580   | 1.630   | Fourth                        | 
 
 ### Optimized build  
 (OPT=-O2 -g2), MIN=100, MAX=1000, NUM_BLOCKS=100,000, TRIALS=10
@@ -18,45 +18,53 @@
 | alloca.out | 0.157   | 0.140   | 0.180   | Fastest                       |
 | malloc.out | 0.168   | 0.160   | 0.190   | Second                        |
 | list.out   | 0.176   | 0.160   | 0.200   | Third                         |
-| new.out    | 0.178   | 0.170   | 0.190   | Fourth                        |  
+| new.out    | 0.178   | 0.170   | 0.190   | Fourth                        | 
+
+### Summary of Debug Builds
+| Program    | Avg (-g)| Avg (-O2-g2) | Speedup Multiple
+|------------|---------|--------------|----------------------------------|
+| alloca.out | 0.450   | 0.157        | 2.866x faster                    |
+| malloc.out | 0.415   | 0.168        | 2.470x faster                    |
+| list.out   | 1.594   | 0.176        | 9.057x faster                    |
+| new.out    | 1.614   | 0.178        | 9.067x faster                    | 
 
 Q. Which program is fastest? Is it always the fastest?  
 
-A. In an optimized run (OPT=-O2 -g2), alloca.out is clearly the fastest, but it isn't always. The unoptimized run with the same number of byte range and 10 trials puts malloc.out in the lead by a narrow margin. This shows how optimization can produce different results based on different program memory allocation techniques.
+A. In an optimized run (OPT=-O2 -g2), alloca.out is the fastest, but it isn't always. The unoptimized run with the same number of byte range and 10 trials puts malloc.out in the lead by a narrow margin. This shows how optimization can produce different results based on different program memory allocation techniques.
 
 Q. Which program is slowest? Is it always the slowest? 
 
 A. In both an optimized and an unoptimized test, new.out is the slowest of the four programs, but list.out is also slow compared to the other two.
 
-### Optimized build Node Test  
+### Optimized build Small Node # Test  
 (OPT=-O2 -g2), MIN=10, MAX=10, NUM_BLOCKS=100,000, TRIALS=10
 
 | Program    | Avg (s) | Min (s) | Max (s) | Notes                         |
 |------------|---------|---------|---------|-------------------------------|
 | alloca.out | 0.010   | 0.010   | 0.010   | Fastest                       |
-| malloc.out | 0.020   | 0.021   | 0.030   | Tied with list.out            |
-| list.out   | 0.020   | 0.021   | 0.030   | Tied with malloc.out          |
-| new.out    | 0.020   | 0.025   | 0.030   | Third                         |  
+| malloc.out | 0.020   | 0.020   | 0.020   | Second                        |
+| list.out   | 0.021   | 0.020   | 0.020   | Third                         |
+| new.out    | 0.025   | 0.020   | 0.030   | Fourth                        |  
 
-### Optimized build - To do, fill in values  
+### Optimized build Medium Node # Test
 (OPT=-O2 -g2), MIN=100, MAX=1000, NUM_BLOCKS=100,000, TRIALS=10
 
 | Program    | Avg (s) | Min (s) | Max (s) | Notes                         |
 |------------|---------|---------|---------|-------------------------------|
-| alloca.out | 0.157   | 0.140   | 0.180   | Fastest                       |
-| malloc.out | 0.168   | 0.160   | 0.190   | Second                        |
-| list.out   | 0.176   | 0.160   | 0.200   | Third                         |
-| new.out    | 0.178   | 0.170   | 0.190   | Fourth                        |  
+| alloca.out | 0.163   | 0.160   | 0.190   | Second                        |
+| malloc.out | 0.160   | 0.169   | 0.180   | Fastest                       |
+| list.out   | 0.177   | 0.170   | 0.190   | Third                         |
+| new.out    | 0.180   | 0.170   | 0.190   | Fourth                        |  
 
-### Optimized build To do, fill in values
+### Optimized build Large Node # Test
 (OPT=-O2 -g2), MIN=1024, MAX=4096, NUM_BLOCKS=100,000, TRIALS=10
 
 | Program    | Avg (s) | Min (s) | Max (s) | Notes                         |
 |------------|---------|---------|---------|-------------------------------|
-| alloca.out | 0.157   | 0.140   | 0.180   | Fastest                       |
-| malloc.out | 0.168   | 0.160   | 0.190   | Second                        |
-| list.out   | 0.176   | 0.160   | 0.200   | Third                         |
-| new.out    | 0.178   | 0.170   | 0.190   | Fourth                        |  
+| alloca.out | 0.788   | 0.760   | 0.840   | Fastest                       |
+| malloc.out | 0.730   | 0.792   | 0.820   | Second                        |
+| list.out   | 0.809   | 0.630   | 0.910   | Third                         |
+| new.out    | 0.821   | 0.750   | 0.840   | Fourth                        |  
 
 Was there a trend in program execution time based on the size of data in each Node? If so, what, and why?  
 Was there a trend in program execution time based on the length of the block chain?  
