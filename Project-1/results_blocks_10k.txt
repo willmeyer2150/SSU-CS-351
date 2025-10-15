@@ -1,0 +1,52 @@
+alloca.out (list length = 10000):
+0.02 real	0.01 user	0.00 sys	8656 memory (KB)
+0.02 real	0.01 user	0.00 sys	9800 memory (KB)
+0.02 real	0.01 user	0.00 sys	9244 memory (KB)
+0.02 real	0.01 user	0.00 sys	9812 memory (KB)
+0.02 real	0.01 user	0.00 sys	9824 memory (KB)
+0.02 real	0.01 user	0.00 sys	8668 memory (KB)
+0.02 real	0.01 user	0.00 sys	8652 memory (KB)
+0.02 real	0.01 user	0.00 sys	9248 memory (KB)
+0.02 real	0.01 user	0.00 sys	9804 memory (KB)
+0.02 real	0.01 user	0.00 sys	8656 memory (KB)
+ min: 0.020000  avg: 0.020000  max: 0.020000
+
+list.out (list length = 10000):
+0.02 real	0.01 user	0.00 sys	9820 memory (KB)
+0.02 real	0.01 user	0.00 sys	9820 memory (KB)
+0.02 real	0.01 user	0.01 sys	9232 memory (KB)
+0.02 real	0.01 user	0.00 sys	9816 memory (KB)
+0.02 real	0.01 user	0.00 sys	9236 memory (KB)
+0.02 real	0.01 user	0.00 sys	9800 memory (KB)
+0.02 real	0.01 user	0.01 sys	9232 memory (KB)
+0.02 real	0.02 user	0.00 sys	9812 memory (KB)
+0.02 real	0.01 user	0.00 sys	9824 memory (KB)
+0.02 real	0.02 user	0.00 sys	9812 memory (KB)
+ min: 0.020000  avg: 0.020000  max: 0.020000
+
+malloc.out (list length = 10000):
+0.02 real	0.02 user	0.00 sys	9824 memory (KB)
+0.02 real	0.01 user	0.00 sys	9812 memory (KB)
+0.02 real	0.01 user	0.00 sys	9808 memory (KB)
+0.02 real	0.01 user	0.00 sys	8648 memory (KB)
+0.02 real	0.01 user	0.00 sys	8656 memory (KB)
+0.02 real	0.01 user	0.00 sys	8664 memory (KB)
+0.02 real	0.01 user	0.00 sys	8668 memory (KB)
+0.02 real	0.01 user	0.00 sys	9240 memory (KB)
+0.02 real	0.01 user	0.00 sys	9248 memory (KB)
+0.02 real	0.01 user	0.00 sys	9816 memory (KB)
+ min: 0.020000  avg: 0.020000  max: 0.020000
+
+new.out (list length = 10000):
+0.02 real	0.01 user	0.00 sys	8660 memory (KB)
+0.02 real	0.02 user	0.00 sys	9224 memory (KB)
+0.02 real	0.01 user	0.00 sys	9824 memory (KB)
+0.02 real	0.01 user	0.00 sys	9244 memory (KB)
+0.02 real	0.01 user	0.00 sys	9240 memory (KB)
+0.02 real	0.01 user	0.00 sys	9804 memory (KB)
+0.02 real	0.01 user	0.00 sys	9244 memory (KB)
+0.02 real	0.01 user	0.00 sys	9820 memory (KB)
+0.02 real	0.02 user	0.00 sys	9236 memory (KB)
+0.02 real	0.01 user	0.00 sys	9244 memory (KB)
+ min: 0.020000  avg: 0.020000  max: 0.020000
+
