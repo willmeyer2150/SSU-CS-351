@@ -59,6 +59,36 @@ Answer. Yes, runtimes increase with larger node sizes. This is because the Nodes
 
 Q1. Was there a trend in program execution time based on the length of the block chain?
 
+### Optimized build Block Chain Length
+(OPT=-O2 -g2), MIN=100, MAX=1000, NUM_BLOCKS=10K, TRIALS=10
+
+| Program    | Avg (s) | Min (s) | Max (s) | Notes                         |
+|------------|---------|---------|---------|-------------------------------|
+| alloca.out | 0.020   | 0.020   | 0.020   | All Same                      |
+| malloc.out | 0.020   | 0.020   | 0.020   | All Same                      |
+| list.out   | 0.020   | 0.020   | 0.020   | All Same                      |
+| new.out    | 0.020   | 0.020   | 0.020   | All Same                      |  
+
+### Optimized build Block Chain Length
+(OPT=-O2 -g2), MIN=100, MAX=1000, NUM_BLOCKS=100K, TRIALS=10
+
+| Program    | Avg (s) | Min (s) | Max (s) | Notes                         |
+|------------|---------|---------|---------|-------------------------------|
+| alloca.out | 0.164   | 0.160   | 0.170   | Tied First                    |
+| malloc.out | 0.164   | 0.160   | 0.180   | Tied First                    |
+| list.out   | 0.173   | 0.160   | 0.190   | Third                         |
+| new.out    | 0.172   | 0.170   | 0.180   | Second                        |  
+
+### Optimized build Block Chain Length
+(OPT=-O2 -g2), MIN=100, MAX=1000, NUM_BLOCKS=1M, TRIALS=10
+
+| Program    | Avg (s) | Min (s) | Max (s) | Notes                         |
+|------------|---------|---------|---------|-------------------------------|
+| alloca.out | 1.614   | 1.590   | 1.700   | Second                        |
+| malloc.out | 1.595   | 1.580   | 1.163   | Fastest                       |
+| list.out   | 1.672   | 1.510   | 1.740   | Third                         |
+| new.out    | 1.673   | 1.630   | 1.720   | Fourth                        | 
+
 Answer 1: 
 
 ## Experiment 4 -- Heap Alocations
