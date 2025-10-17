@@ -16,7 +16,7 @@ Q2. Which program is slowest? Is it always the slowest?
 
 Answer 1: In an optimized run (OPT=-O2 -g2), alloca.out is the fastest, but it isn't always. The unoptimized run with the same number of byte range and 10 trials puts malloc.out in the lead by a narrow margin. This shows how optimization can produce different results based on different program memory allocation techniques.
 
-Answer 2: In both an optimized and an unoptimized test, new.out is the slowest of the four programs, but list.out is also slow compared to the other two. It should be noted that in the optimized build of both, a substantial improvement in speed was recorded.
+Answer 2: In both an optimized and an unoptimized test, new.out is the slowest of the four programs, but list.out is also slow compared to the other two. It should be noted that in the optimized build of both, a substantial improvement in speed was recorded. This shows how drastically optimization can affect new pointer heavy runs.
 
 ## Experiment 2 -- Data per Node Tests
 
@@ -53,7 +53,7 @@ Q1. Was there a trend in program execution time based on the size of data in eac
 | list.out   | 0.809   | 0.630   | 0.910   | Third                         |
 | new.out    | 0.821   | 0.750   | 0.840   | Fourth                        | 
 
-Answer. Yes, runtimes increase with larger node sizes. This is because the Nodes contain more bytes to initialize. 
+Answer. Yes, runtime increases as bytes per node increases with all the programs. This is because the Nodes contain more bytes to initialize which requires larger buffers in memory. Allocation cost is not that important in this case as it doesn't scale with pay-load increases. It is dealing with the bytes themselves that causes increases in runtime.
 
 ## Experiement 3 -- Block Chain Length Tests
 
@@ -87,9 +87,19 @@ Q1. Was there a trend in program execution time based on the length of the block
 | alloca.out | 1.614   | 1.590   | 1.700   | Second                        |
 | malloc.out | 1.595   | 1.580   | 1.163   | Fastest                       |
 | list.out   | 1.672   | 1.510   | 1.740   | Third                         |
-| new.out    | 1.673   | 1.630   | 1.720   | Fourth                        | 
+| new.out    | 1.673   | 1.630   | 1.720   | Fourth                        |
 
-Answer 1: 
+### Optimized build Block Chain Length  
+(OPT = -O2 -g2), MIN = 10, MAX = 10, NUM_BLOCKS = 5 M, TRIALS = 10  
+
+| Program    | Avg (s) | Min (s) | Max (s) | Notes                    |
+|------------|---------|---------|---------|--------------------------|
+| alloca.out | 0.964   | 0.870   | 1.070   | Fastest - stack based    |
+| malloc.out | 1.127   | 1.090   | 1.180   | Second - heap allocation | 
+| new.out    | 1.475   | 1.400   | 1.590   | Third custom linked list |
+| list.out   | 1.486   | 1.420   | 1.600   | Slowest pointer based    |
+
+Answer 1: Runtime grows with NUM_BLOCKS, but the growth is fairly linear. The more blocks you create, the more allocations are needed to process the bytes per node. With large NUM_BLOCKS, a more noticiable difference becomes clear. malloc/alloca are in the lead and list/new follow due to pointer creation and less efficient cache usage. The resolution of the differences in runtime can be seen best in the final table. In this run, the blocks are set to 5 million and the bytes is capped at 10. This shows the story best.
 
 ## Experiment 4 -- Heap Alocations
 
@@ -104,12 +114,25 @@ Q2. Does increasing the stack size affect the heap? Speculate on any similaritie
 | malloc.out | 542             |
 | new.out    | 559             |
 
+Answer 1: list.out and new.out make a new heap request for every node they create. That’s why they trigger a lot more brk() and sbrk() calls. Each node gets its own little chunk of memory. 
+
+malloc.out also uses the heap, but the C memory manager can request large chunks of memory at once and deliver pieces of that memory in smaller chunks. This increases its memory efficiency and makes its break count slightly lower.
+
+alloca.out doesn’t use the heap at all. I uses the stack, which is temporary memory for the current function so it has far fewer heap breaks.
+
+Answer 2: When you run ulimit -s unlimited, you’re just telling the system to let this program use much more stack space. That change only helps alloca.out, since it stores nodes on the stack. Since the heap and stack are two separate memory areas, when you increase the stack size, the heap is not changed. The differences in performance you see between programs has to do with how each one stores its data and utilizes memory. If it uses the stack, it will just be faster with many fewer break calls. 
+
+In summary:
+alloca.out = stack
+malloc.out, new.out, list.out = heap
+
 ## Memory Diagram
 
 Q1. Considering either the malloc.cpp or alloca.cpp versions of the program, generate a diagram showing two Nodes. Include in the diagram
 the relationship of the head, tail, and Node next pointers.  
 - show the size (in bytes) and structure of a Node that allocated six bytes of data
-- include the bytes pointer, and indicate using an arrow which byte in the allocated memory it points to.  
+- include the bytes pointer, and indicate using an arrow which byte in the allocated memory it points to.
+
 
 ## Summary
 
