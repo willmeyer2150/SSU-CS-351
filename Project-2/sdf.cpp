@@ -136,7 +136,7 @@ int main(int argc, char* argv[]) {
     //      closing brace :-)   
     //
     for (size_t id = 0; id < threads.size(); ++id) {
-        threads[id] = std::jthread{ []() {
+        threads[id] = std::jthread{ [&, id]() {
 
             // C++ 11's random number generation system.  These functions
             //   will generate uniformly distributed unsigned integers in
@@ -152,10 +152,21 @@ int main(int argc, char* argv[]) {
                 auto rand = [&,partitions]() {
                     return static_cast<double>(uniform(generator)) / partitions;
                 };
-            
+            	
+		size_t begin = id * chunkSize;
+		size_t end = (id == threads.size() - 1) ? numSamples : begin + chunkSize;
+
+		size_t localCount = 0;
+
+		for (size_t i = begin; i < end; ++i) {
                 // Generate points inside the volume cube.  First, create uniformly
                 //   distributed points in the range [0.0, 1.0] for each dimension.
-                vec3 p(rand(), rand(), rand());
+                	vec3 p(rand(), rand(), rand());
+			// Count 1 if point is in the region(outside sphere), else  0
+			localCount += sdf(p);
+		}
+
+		insidePoints[id] = localCount;
 
 
             barrier.arrive_and_wait();
@@ -168,6 +179,13 @@ int main(int argc, char* argv[]) {
     //
     // (Look in threaded.cpp for hints)
 
-    std::cout << static_cast<double>(volumePoints) / numSamples << "\n";
+	size_t volumePoints = 0;
+	for (size_t  id = 0; id < insidePoints.size(); ++id) {
+		volumePoints += insidePoints[id];
+	}
+
+	double volumeEstimate = static_cast<double>(volumePoints) / static_cast<double>(numSamples);
+
+	std::cout << volumeEstimate << "\n";
 }
 

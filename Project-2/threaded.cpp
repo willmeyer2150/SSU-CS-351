@@ -4,6 +4,7 @@
 #include <numeric>
 #include <thread>
 #include <vector>
+#include <algorithm>
 
 // Header file for the Data template class
 #include "Data.h"
@@ -94,9 +95,22 @@ int main(int argc, char* argv[]) {
     //
     for (size_t id = 0; id < threads.size(); ++id) {
         threads[id] = std::jthread(
-            []() {
-                // Add your implementation here
+            [&, id]() // Capture id by value, all else by reference
+	{
+                // Compute my chunk boundaries
+		size_t begin = id * chunkSize;
+		size_t end   = std::min(begin + chunkSize, data.size());
 
+		// Local sum for this thread
+		double localSum = 0.0;
+		for (size_t i = begin; i < end; ++i) {
+			localSum += data[i];
+		}
+
+		// Store into the per-thread sums array
+		sums[id] = localSum;
+
+		// Wait until all threads reach this point
                 barrier.arrive_and_wait();
             }
         );
