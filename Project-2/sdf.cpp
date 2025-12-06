@@ -147,27 +147,26 @@ int main(int argc, char* argv[]) {
             std::uniform_int_distribution<unsigned int> uniform(0.0, partitions);
 
 
-                // Define a helper function to generate random floating-point
-                //   values in the range [0.0, 1.0]
-                auto rand = [&,partitions]() {
-                    return static_cast<double>(uniform(generator)) / partitions;
-                };
+            // Define a helper function to generate random floating-point
+            //   values in the range [0.0, 1.0]
+            auto rand = [&,partitions]() {
+                return static_cast<double>(uniform(generator)) / partitions;
+            };
             	
-		size_t begin = id * chunkSize;
-		size_t end = (id == threads.size() - 1) ? numSamples : begin + chunkSize;
+		    size_t begin = id * chunkSize;
+		    size_t end = (id == threads.size() - 1) ? numSamples : begin + chunkSize;
 
-		size_t localCount = 0;
+		    size_t localCount = 0;
 
-		for (size_t i = begin; i < end; ++i) {
-                // Generate points inside the volume cube.  First, create uniformly
-                //   distributed points in the range [0.0, 1.0] for each dimension.
-                	vec3 p(rand(), rand(), rand());
-			// Count 1 if point is in the region(outside sphere), else  0
-			localCount += sdf(p);
-		}
+		    for (size_t i = begin; i < end; ++i) {
+                    // Generate points inside the volume cube.  First, create uniformly
+                    //   distributed points in the range [0.0, 1.0] for each dimension.
+                	    vec3 p(rand(), rand(), rand());
+			    // Count 1 if point is in the region(outside sphere), else  0
+			    localCount += sdf(p);
+		    }
 
-		insidePoints[id] = localCount;
-
+		    insidePoints[id] = localCount;
 
             barrier.arrive_and_wait();
         }};
@@ -178,6 +177,7 @@ int main(int argc, char* argv[]) {
     //   having the main thread wait on a thread to keep it from exiting
     //
     // (Look in threaded.cpp for hints)
+    threads.back().join();
 
 	size_t volumePoints = 0;
 	for (size_t  id = 0; id < insidePoints.size(); ++id) {
