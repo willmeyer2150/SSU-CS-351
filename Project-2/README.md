@@ -71,6 +71,11 @@ $$
 So Amdahl's Law says that roughly **96%** of the runtime can be parallelized, and about **4%** is serial.
 
 ---
+$$
+p = \frac{t - t_s}{t}
+$$
+
+Inline math: \( p = \frac{t - t_s}{t} \)
 
 ## 4. Memory Bandwidth and Kernel Behavior
 
