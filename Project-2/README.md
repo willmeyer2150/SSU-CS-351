@@ -72,6 +72,53 @@ So Amdahl's Law says that roughly **96%** of the runtime can be parallelized, an
 
 ---
 
+### 3. Amdahl’s Law
+
+Amdahl’s Law gives the formula for the parallel fraction \( p \):
+
+$$
+p = \frac{t - t_s}{t}
+$$
+
+where:
+
+- \( t \) = 1-thread runtime
+- \( t_s \) = serial portion of the program (not parallelizable)
+
+To estimate \( t_s \), we use the maximum observed speedup:
+
+$$
+S_{\max} = \frac{t}{t_s}
+$$
+
+Solving for \( t_s \):
+
+$$
+t_s = \frac{t}{S_{\max}}
+$$
+
+From my measurements:
+
+- \( t = 33.71 \) seconds (1 thread)
+- \( S_{\max} = 25.66 \)
+
+So:
+
+$$
+t_s = \frac{33.71}{25.66} \approx 1.313
+$$
+
+Finally, compute \( p \):
+
+$$
+p = \frac{t - t_s}{t}
+= \frac{33.71 - 1.313}{33.71}
+\approx 0.96
+$$
+
+So about **96%** of the runtime is parallelizable and about **4%** is serial.
+
+
 ## 4. Memory Bandwidth and Kernel Behavior
 
 **Question:** How many bytes of data are required per iteration? What’s the associated bandwidth used by the kernel? Is that value consistent in the threaded versions?
