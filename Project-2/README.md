@@ -38,21 +38,21 @@ $$
 Amdahl's Law gives the formula for the parallel fraction p:
 
 $$
-p = \frac{t-t_{s}}{t}
+p = \frac{t - t_s}{t}
 $$
 where:
 - t = 1 thread runtime
-- $t_{s}$​ = the serial portion of the program (the part that cannot be parallelized)
+- $t_s$​ = the serial portion of the program (the part that cannot be parallelized)
 
-To estimate $t_{s}$​, we use the **maximum observed speedup** from the graph.  
+To estimate $t_s$​, we use the **maximum observed speedup** from the graph.  
 Amdahl’s Law says that the maximum speedup is:
 
 $$
-S_{max}​= \frac{t}{t_{s}}​
+S_{max}​ = \frac{t}{t_s}​
 $$
 Rearranging:
 $$
-t_{s}​= \frac{t}{S_{max}}​
+t_s​= \frac{t}{S_{max}}​
 $$
 From my measurements:
 - t = 33.71 seconds (1 thread)
@@ -60,22 +60,17 @@ From my measurements:
 
 So:
 $$
-t_{s}​= \frac{33.71}{25.66}​ ≈ 1.313 seconds
+t_s​= \frac{33.71}{25.66}​ ≈ 1.313 seconds
 $$
 
 Plugging in time:
 $$
-p = \frac{t-t_{s}}{t}= \frac{33.71-1.313}{33.71}=\frac{32.397}{33.71}≈0.96
+p = \frac{t-t_s}{t}= \frac{33.71-1.313}{33.71}=\frac{32.397}{33.71}≈0.96
 $$
 
 So Amdahl's Law says that roughly **96%** of the runtime can be parallelized, and about **4%** is serial.
 
 ---
-$$
-p = \frac{t - t_s}{t}
-$$
-
-Inline math: \( p = \frac{t - t_s}{t} \)
 
 ## 4. Memory Bandwidth and Kernel Behavior
 
