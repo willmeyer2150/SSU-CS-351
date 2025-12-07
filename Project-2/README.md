@@ -67,7 +67,7 @@ From my measurements:
 So:
 
 $$
-t_s = \frac{33.71}{25.66} \approx 1.313
+t_s = \frac{33.71}{25.66} \approx 1.313 seconds
 $$
 
 Finally, compute p:
@@ -177,7 +177,6 @@ $$
 
 $$
 V_{\text{sphere}} = \frac{4}{3}\pi r^3 = \frac{4\pi (0.5)^3}{3}
-
 $$
 
 The approximate exact volume of our cube:
