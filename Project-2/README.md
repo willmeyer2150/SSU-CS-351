@@ -128,16 +128,16 @@ $$
 
 where:
 
-- \( t \) = 1-thread runtime
-- \( t_s \) = serial portion of the program (not parallelizable)
+- t = 1-thread runtime
+- $t_s$ = serial portion of the program (not parallelizable)
 
-To estimate \( t_s \), we use the maximum observed speedup:
+To estimate $t_s$, we use the maximum observed speedup:
 
 $$
 S_{\max} = \frac{t}{t_s}
 $$
 
-Solving for \( t_s \):
+Solving for $t_s$:
 
 $$
 t_s = \frac{t}{S_{\max}}
@@ -145,8 +145,8 @@ $$
 
 From my measurements:
 
-- \( t = 33.71 \) seconds (1 thread)
-- \( S_{\max} = 25.66 \)
+- t = 33.71 seconds (1 thread)
+- $S_{\max}$ = 25.66
 
 So:
 
@@ -154,7 +154,7 @@ $$
 t_s = \frac{33.71}{25.66} \approx 1.313
 $$
 
-Finally, compute \( p \):
+Finally, compute p:
 
 $$
 p = \frac{t - t_s}{t}
