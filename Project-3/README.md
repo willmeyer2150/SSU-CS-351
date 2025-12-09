@@ -5,13 +5,13 @@
 ### HTML Applications
 
 - [Triangle](triangle.html)
-- [![Triangle Screenshot](images/triangle.png)](triangle.html)
+[![Triangle Screenshot](images/triangle.png)](triangle.html)
 
 - [Polygon](polygon.html)
-- [![Polygon Screenshot](images/polygon.png)](polygon.html)
+[![Polygon Screenshot](images/polygon.png)](polygon.html)
 
 - [Star](star.html)
-- [![Star Screenshot](images/star.png)](star.html)
+[![Star Screenshot](images/star.png)](star.html)
 
 - [Spinny](spinny.html)
 
