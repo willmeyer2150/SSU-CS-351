@@ -4,14 +4,23 @@
         <script src="initShaders.js"></script>
 
         <script id="vertex-shader" type="x-shader/x-vertex">
+            uniform float N;
+
             void main() {
                 // Your vertex shader code will go here
+                if (gl_VertexID == 0) {
+                gl_Position = vec4(0.0, 0.0, 0.0, 0.0);
+                return;
+                }
+
+                float radius = gl_VertexID == 0 ? 1.0 : 0.5;
+
                 float vid = float(gl_VertexID);
 
                 const float Pi = 3.14159265358979323846;
-                float angle = vid * 2.0 * Pi / 3.0;
+                float angle = vid * 2.0 * Pi / N;
 
-                vec2 v = vec2(cos(angle), sin(angle));
+                vec2 v = radius * vec2(cos(angle), sin(angle));
 
                 gl_Position = vec4(v, 0.0, 1.0);
             }
@@ -35,7 +44,7 @@
                 var program = initShaders(gl, "vertex-shader", "fragment-shader");
                 
                 // These are lines that we'll need a bit later.
-                // var uN = gl.getUniformLocation(program, "N");
+                var uN = gl.getUniformLocation(program, "N");
                 // var uTime = gl.getUniformLocation(program, "t");
 
                 var t = 0.0;
@@ -46,14 +55,14 @@
                     gl.clear(gl.COLOR_BUFFER_BIT);
                     gl.useProgram(program);
 
-                    const N = 12; // number of vertices
+                    const N = 12; // number of vertices to make a 10 sided polygon from triangles
 
                     // Other code we'll need later, in combination with the
                     //   code above marked for later use.
-                    // gl.uniform1f(uN, N);
+                    gl.uniform1f(uN, N);
                     // gl.uniform1f(uTime, t);
 
-                    gl.drawArrays(gl.LINE_LOOP, 0, 3);
+                    gl.drawArrays(gl.TRIANGLE_FAN, 0, N);
 
                     requestAnimationFrame(render);
                 };
