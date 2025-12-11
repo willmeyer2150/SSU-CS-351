@@ -11,13 +11,14 @@ const DataType DefalutStartValue = -6.0;
 const Count TestSize = 1'000'000'000;
 const Count NumCheckValues = 500;
 
-//
+// GPU kernel
 using DataType = float;
 
+__global__
 void iota(size_t n, DataType* values, const DataType startValue) {
-    for (size_t i = 0; i < n; ++i) {
-        values[i] = i + startValue;
-    }
+    std::size_t i = blockIdx.x * blockDim.x + threadIdx.x;
+    if (i >= n) return;
+    values[i] = startValue + static_cast<DataType>(i);
 }
 //
 
