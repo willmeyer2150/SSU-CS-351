@@ -174,7 +174,22 @@ inline __device__ float magnitude(const Complex& z) { return z.magnitude(); }
 __global__
 void julia(Complex d, Complex center, Color* pixels) {
     // Add your CUDA implementation of the Julia program here.
-    //
+    int x = blockIdx.x * blockDim.x + threadIdx.x;
+    int y = blockIdx.y * blockDim.y + threadIdx.y;
+
+    if (x >= Width || y >= Height) return;
+
+    Complex c(x*d.x, y*d.y);
+    c -= center;
+    Complex z;
+
+    int iter = 0;
+    while (iter < MaxIterations && magnitude(z) < 2.0) {
+        z = z*z + c;
+        ++iter;
+    }
+
+    pixels[x + y * Width] = setColor(iter);
     // Hint: this function should basically be the same thing as the body
     //   of the two for loops in the C++ version.  If you're clever, which
     //   means you choose your variable names well (just like Phil mentions)
