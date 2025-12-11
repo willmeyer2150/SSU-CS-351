@@ -122,7 +122,7 @@ The host code allocates a pixel buffer in GPU memory, launches a 2D kernel grid 
 
 ### **Generated Image**
 
-![Julia Set](images/julia.png)
+![Julia Set](Images/julia.png)
 
 ---
 ## **Notes & Final Reflections
