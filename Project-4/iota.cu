@@ -5,14 +5,13 @@
 #include <vector>
 
 using Count = size_t;
-using DataType = long;
+using DataType = float;
 
 const DataType DefalutStartValue = -6.0;
 const Count TestSize = 1'000'000'000;
 const Count NumCheckValues = 500;
 
 // GPU kernel
-using DataType = float;
 
 __global__
 void iota(size_t n, DataType* values, const DataType startValue) {
