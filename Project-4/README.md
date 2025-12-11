@@ -81,13 +81,13 @@ Run using:
 
 ### **Question: Are the results what you expected?**
 
-Yes, the results are what I expected because `iota` performs very little work per element, so CUDA's fixed overhead (kernel launch and memory allocation) is too high for the actual computation with small and medium vector sizes. Only when a vector becomes very large, (e.g., 500,000,000, CPU time: 2.64, GPU time: 1.53) does the GPU have enough total work justify that overhead and begin to outperform the CPU.
+Yes, the results are what I expected because `iota` does very little work per element, so CUDA's fixed overhead of launching the kernel and allocating memory is the dominant factor for higher runtime with small to medium vector sizes. Only when a vector becomes very large, for example, at 500 million elements, where CPU time took 2.64 seconds and GPU time took 1.53 seconds does the GPU have enough total work to amortize that overhead and begin to outperform the CPU.
 
 ---
 
 ### **Question: Why isn’t CUDA a great solution for this problem?**
 
-CUDA is not a great choice for this problem because `iota` is bound by memory constraints, not the actual computation. The GPU's strength comes from performing large amounts of arithmetic in parallel operation, but in this implementation, each thread only does a single addition and then a write to memory. Since memory is the limiting factor to throughput (ops/time), not computation, the GPU can not accelerate the task beyond what the CPU's cache and vectorized instruction already handles very well.
+CUDA is not a great choice for this problem because `iota` is bound by memory constraints, not the actual computation. The GPU's strength comes from performing large amounts of arithmetic in parallel operation, but in this implementation, each thread only does a single addition and then a write to memory. Since memory throughput is the limiting factor, not computation, the GPU can not accelerate the task beyond what the CPU's cache and vectorized instruction already handles very well.
 
 ---
 
