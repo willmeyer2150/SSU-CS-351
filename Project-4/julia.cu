@@ -172,20 +172,20 @@ using Complex = TComplex<float>;
 inline __device__ float magnitude(const Complex& z) { return z.magnitude(); }
 
 __global__
-void julia(Complex d, Complex center, Color* pixels) {
+void julia(Complex ll, Complex d, Color* pixels) {
     // Add your CUDA implementation of the Julia program here.
     int x = blockIdx.x * blockDim.x + threadIdx.x;
     int y = blockIdx.y * blockDim.y + threadIdx.y;
 
     if (x >= Width || y >= Height) return;
 
-    Complex c(x*d.x, y*d.y);
-    c -= center;
-    Complex z;
+    Complex z(ll.x + x*d.x, ll.y + y*d.y);
+
+    Complex c_const(-0.8f, 0.156f);
 
     int iter = 0;
-    while (iter < MaxIterations && magnitude(z) < 2.0) {
-        z = z*z + c;
+    while (iter < MaxIterations && magnitude(z) < 2.0f) {
+        z = z*z + c_const;
         ++iter;
     }
 
@@ -230,7 +230,7 @@ int main() {
     Complex ll(-2.1, -2.1);
     Complex ur(2.1, 2.1);
     Complex domain = ur - ll;
-    Complex center = 0.5 * domain;
+    //Complex center = 0.5 * domain;
     Complex d(domain.x/Width, domain.y/Height);
 
     Color* gpuPixels;
@@ -238,8 +238,11 @@ int main() {
     CUDA_CHECK_CALL(cudaMalloc(&gpuPixels, numBytes));
 
     dim3 blockDim(32, 32);
-    dim3 numBlocks(Width/blockDim.x, Height/blockDim.y);
-    CUDA_CHECK_KERNEL((julia<<<numBlocks, blockDim>>>(d, center, gpuPixels)));
+    // dim3 numBlocks(Width/blockDim.x, Height/blockDim.y);
+
+    dim3 numBlocks(Width + blockDim.x - 1) / blockDim.x, (Height + blockDim.y - 1) / blockDim.y;
+
+    CUDA_CHECK_KERNEL((julia<<<numBlocks, blockDim>>>(ll, d, gpuPixels)));
 
     Color* pixels = new Color[Width * Height];
     CUDA_CHECK_CALL(cudaMemcpy(pixels, gpuPixels, numBytes, cudaMemcpyDeviceToHost));
