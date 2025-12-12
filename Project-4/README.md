@@ -10,7 +10,7 @@
 
 ### **Summary**
 
-This project looks at CUDA programming by converting two CPU-based programs into GPU accelerated versions:
+This project looks at CUDA programming by converting two CPU-based programs into GPU accelerated versions.
 ### **Description (CPU vs GPU Version)**
 
 **std::iota implementation**
@@ -36,7 +36,7 @@ For the CUDA version, the single-threaded `std::iota` call is replaced with a da
 
 - Once the kernel completes, the host copies the results back with `cudaMemcpy` and frees the device memory.
 
-This approach is considered embarrassingly parallel because each output element is independent. This allows the GPU to populate very large arrays efficiently because once the size of the elements become large, the fixed kernel launch and memory transfer overheads become amortized.
+This approach is considered embarrassingly parallel because each output element is independent. This allows the GPU to populate very large arrays efficiently because once the size of the data become large, the fixed kernel launch and memory transfer overheads become amortized.
 
 ---
 
@@ -44,7 +44,9 @@ This approach is considered embarrassingly parallel because each output element 
 
 Run using:
 
-`./runTrials.sh ./iota.cpu ./runTrials.sh ./iota.gpu`
+`./runTrials.sh ./iota.cpu`
+
+`./runTrials.sh ./iota.gpu`
 
 ### CPU iota Results
 
@@ -87,7 +89,7 @@ Yes, the results are what I expected because `iota` does very little work per el
 
 ### **Question: Why isn’t CUDA a great solution for this problem?**
 
-CUDA is not a great choice for this problem because `iota` is bound by memory constraints, not the actual computation. The GPU's strength comes from performing large amounts of arithmetic in parallel operation, but in this implementation, each thread only does a single addition and then a write to memory. Since memory throughput is the limiting factor, not computation, the GPU can not accelerate the task beyond what the CPU's cache and vectorized instruction already handles very well.
+CUDA is not a great choice for this problem because `iota` is bound by memory constraints, not the actual computation. The GPU's strength comes from performing large amounts of arithmetic in parallel operations, but in this implementation, each thread only does a single addition and then a write to memory. Since memory throughput is the limiting factor, not computation, the GPU can not accelerate the task beyond what the CPU's cache and vectorized instruction already handles very well.
 
 ---
 
@@ -118,7 +120,11 @@ The color is chosen with a device only `setColor()` function.
 
 The host code allocates a pixel buffer in GPU memory, launches a 2D kernel grid sized to cover the entire image, waits for completion, and copies the results back to the CPU to write the final PPM file. Aside from the parallelization and GPU math, the computation is the same as the CPU version.
 
----
+**Julia vs Mandelbrot Modification**
+
+To generate a Julia set instead of the Mandelbrot set, the kernel logic remains the same, but the roles of `z` and `c` are swapped. Rather than initializing `z` to zero and letting `c` vary per pixel, the Julia version initializes `z` from the mapped pixel coordinates and uses a fixed complex constant `c` supplied by the host. This small change produces the characteristic Julia patterns while reusing the same parallel computation structure.
+
+___
 
 ### **Generated Images**
 
