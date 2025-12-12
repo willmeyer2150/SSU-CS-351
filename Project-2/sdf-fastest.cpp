@@ -52,6 +52,20 @@ bool sdf(vec3 p) {
     return d2 > 0.25;
 }
 
+
+static inline uint64_t splitmix64(uint64_t& state) {
+    uint64_t z = (state += 0x9E3779B97F4A7C15ull);
+    z = (z ^ (z >> 30)) * 0xBF58476D1CE4E5B9ull;
+    z = (z ^ (z >> 27)) * 0x94D049BB133111EBull;
+    return z ^ (z >> 31);
+}
+
+static inline double rand01(uint64_t& state) {
+    // Make a uniform double in [0,1) from 53 random bits
+    return (splitmix64(state) >> 11) * (1.0 / 9007199254740992.0); // 2^53
+}
+
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // --- main ---
@@ -157,17 +171,26 @@ int main(int argc, char* argv[]) {
             //   will generate uniformly distributed unsigned integers in
             //   the range [0, partitions].  The functions are used in the
             //   helper function rand() (implemented as a lambda)
-            std::random_device device;
-            std::mt19937 generator(device());
-            std::uniform_int_distribution<unsigned int> uniform(0.0, partitions);
+
+            // ------------ Replaced this with faster implementation ------------
+
+            // std::random_device device;
+            // std::mt19937 generator(device());
+            // std::uniform_int_distribution<unsigned int> uniform(0.0, partitions);
 
 
             // Define a helper function to generate random floating-point
             //   values in the range [0.0, 1.0]
-            auto rand = [&,partitions]() {
-                return static_cast<double>(uniform(generator)) / partitions;
-            };
-            	
+
+            // ------------ Replaced this with faster implementation ------------
+            // auto rand = [&,partitions]() {
+            //     return static_cast<double>(uniform(generator)) / partitions;
+            // };
+
+            // Added this line to make it faster
+            uint64_t rng = 0x123456789ABCDEF0ull ^ (uint64_t)id * 0x9E3779B97F4A7C15ull;
+            auto rand = [&]() { return rand01(rng); };
+
 		    size_t begin = id * chunkSize;
 		    size_t end = (id == threads.size() - 1) ? numSamples : begin + chunkSize;
 
