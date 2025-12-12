@@ -196,13 +196,28 @@ int main(int argc, char* argv[]) {
 
 		    size_t localCount = 0;
 
-		    for (size_t i = begin; i < end; ++i) {
-                    // Generate points inside the volume cube.  First, create uniformly
-                    //   distributed points in the range [0.0, 1.0] for each dimension.
-                	    vec3 p(rand(), rand(), rand());
-			    // Count 1 if point is in the region(outside sphere), else  0
-			    localCount += sdf(p);
-		    }
+            for (size_t i = begin; i < end; ++i) {
+
+                // ------------ Replaced this with faster implementation ------------
+                // Generate points inside the volume cube.  First, create uniformly
+                //   distributed points in the range [0.0, 1.0] for each dimension.
+                // vec3 p(rand(), rand(), rand());
+                // Count 1 if point is in the region(outside sphere), else  0
+                // localCount += sdf(p);
+
+                // ------------ New function with faster implementation ------------
+                const double x = rand();
+                const double y = rand();
+                const double z = rand();
+
+                const double dx = x - 0.5;
+                const double dy = y - 0.5;
+                const double dz = z - 0.5;
+
+                const double d2 = dx*dx + dy*dy + dz*dz;
+                localCount += (d2 > 0.25);
+
+            }
 
 		    insidePoints[id] = localCount;
 
