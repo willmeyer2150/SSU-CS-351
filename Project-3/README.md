@@ -22,7 +22,7 @@ Each HTML file runs a different shader based graphics demo directly in the brows
 
 
 - [Shiny Spinny (repo file)](shiny_spinny.html)  
-  Demo on Blue: [spinny.html](https://blue.cs.sonoma.edu/~wmeyer/cs351/shiny_spinny.html)
+  Demo on Blue: [shiny_spinny.html](https://blue.cs.sonoma.edu/~wmeyer/cs351/shiny_spinny.html)
 
 ## Extra Credit Final Thoughts
 
