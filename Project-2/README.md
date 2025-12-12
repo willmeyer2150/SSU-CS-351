@@ -98,13 +98,15 @@ $$
 
 To estimate bandwidth, we can divide this total by runtime using the baseline timing from mean.cpp (_32.84 seconds_) and then compare it with the best parallel run time at 46 threads (_1.28 seconds_).
 
-_Baseline Bandwidth:_
+_Baseline Bandwidth:_  
+
 $$
 \text{BW}_1
 = \frac{34 \times 10^9}{32.84}
 = 1.0356 \times 10^9\ \text{B/s}
 \approx 1.036\ \text{GB/s}
-$$
+$$  
+
 _Best Parallel Bandwidth:_
 
 $$
