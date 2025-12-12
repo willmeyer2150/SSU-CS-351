@@ -136,8 +136,19 @@ int main(int argc, char* argv[]) {
     //       exiting before their peers
     //
     std::vector<std::jthread>  threads(numThreads);
-    std::vector<size_t>        insidePoints(numThreads);
-    std::barrier               barrier(numThreads);
+
+    // Removed this line to make it faster
+    // std::vector<size_t>        insidePoints(numThreads);
+
+    // Added this line to make it faster
+    struct alignas(64) PaddedCount {
+        size_t v;
+    };
+    std::vector<PaddedCount> insidePoints(numThreads);
+
+
+    // Removed this line to make it faster
+    // std::barrier               barrier(numThreads);
 
     // Computation of how much work a thread should do. (yes, this doesn't
     //   divide evenly in most cases, but we'll lose at most numThreads
@@ -155,14 +166,14 @@ int main(int argc, char* argv[]) {
     //     * collect the results of testing point p's position using the
     //         sdf() function.  (Hint: you can simply tally up the results
     //         returned by sdf() to count how many samples are in the
-    //         region of interest).  Something like 
+    //         region of interest).  Something like
     //
     //           tallyVariable += sdf(p);
     //
     //         will do nicely.
     //
     //   (really, you'll need to add four lines to this, one of which is a
-    //      closing brace :-)   
+    //      closing brace :-)
     //
     for (size_t id = 0; id < threads.size(); ++id) {
         threads[id] = std::jthread{ [&, id]() {
@@ -204,9 +215,14 @@ int main(int argc, char* argv[]) {
 			    localCount += sdf(p);
 		    }
 
-		    insidePoints[id] = localCount;
+            // Removed this line to make it faster
+		    // insidePoints[id] = localCount;
 
-            barrier.arrive_and_wait();
+            // Added this line to make it faster
+            insidePoints[id].v = localCount;
+
+            // Removed this line to make it faster
+            // barrier.arrive_and_wait();
         }};
     }
 
@@ -215,15 +231,23 @@ int main(int argc, char* argv[]) {
     //   having the main thread wait on a thread to keep it from exiting
     //
     // (Look in threaded.cpp for hints)
-    threads.back().join();
+
+    // Removed this line to make it faster
+    // threads.back().join();
+
+    // ------------ Added this for faster implementation ------------
+    for (auto& t : threads) t.join();
 
 	size_t volumePoints = 0;
 	for (size_t  id = 0; id < insidePoints.size(); ++id) {
-		volumePoints += insidePoints[id];
+		// Removed this line to make it faster
+        volumePoints += insidePoints[id];
+
+        // Added this line to make it faster
+        volumePoints += insidePoints[id].v;
 	}
 
 	double volumeEstimate = static_cast<double>(volumePoints) / static_cast<double>(numSamples);
 
 	std::cout << volumeEstimate << "\n";
 }
-
