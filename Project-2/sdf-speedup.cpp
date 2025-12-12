@@ -240,7 +240,7 @@ int main(int argc, char* argv[]) {
 	size_t volumePoints = 0;
 	for (size_t  id = 0; id < insidePoints.size(); ++id) {
 		// Removed this line to make it faster
-        volumePoints += insidePoints[id];
+        // volumePoints += insidePoints[id];
 
         // Added this line to make it faster
         volumePoints += insidePoints[id].v;

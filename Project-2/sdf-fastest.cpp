@@ -136,19 +136,8 @@ int main(int argc, char* argv[]) {
     //       exiting before their peers
     //
     std::vector<std::jthread>  threads(numThreads);
-
-    // Removed this line to make it faster
-    // std::vector<size_t>        insidePoints(numThreads);
-
-    // Added this line to make it faster
-    struct alignas(64) PaddedCount {
-        size_t v;
-    };
-    std::vector<PaddedCount> insidePoints(numThreads);
-
-
-    // Removed this line to make it faster
-    // std::barrier               barrier(numThreads);
+    std::vector<size_t>        insidePoints(numThreads);
+    std::barrier               barrier(numThreads);
 
     // Computation of how much work a thread should do. (yes, this doesn't
     //   divide evenly in most cases, but we'll lose at most numThreads
@@ -215,14 +204,9 @@ int main(int argc, char* argv[]) {
 			    localCount += sdf(p);
 		    }
 
-            // Removed this line to make it faster
-		    // insidePoints[id] = localCount;
+		    insidePoints[id] = localCount;
 
-            // Added this line to make it faster
-            insidePoints[id].v = localCount;
-
-            // Removed this line to make it faster
-            // barrier.arrive_and_wait();
+            barrier.arrive_and_wait();
         }};
     }
 
@@ -231,23 +215,15 @@ int main(int argc, char* argv[]) {
     //   having the main thread wait on a thread to keep it from exiting
     //
     // (Look in threaded.cpp for hints)
-
-    // Removed this line to make it faster
-    // threads.back().join();
-
-    // ------------ Added this for faster implementation ------------
-    for (auto& t : threads) t.join();
+    threads.back().join();
 
 	size_t volumePoints = 0;
 	for (size_t  id = 0; id < insidePoints.size(); ++id) {
-		// Removed this line to make it faster
-        volumePoints += insidePoints[id];
-
-        // Added this line to make it faster
-        volumePoints += insidePoints[id].v;
+		volumePoints += insidePoints[id];
 	}
 
 	double volumeEstimate = static_cast<double>(volumePoints) / static_cast<double>(numSamples);
 
 	std::cout << volumeEstimate << "\n";
 }
+
