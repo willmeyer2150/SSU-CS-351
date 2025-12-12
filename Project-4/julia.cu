@@ -240,7 +240,9 @@ int main() {
     dim3 blockDim(32, 32);
     // dim3 numBlocks(Width/blockDim.x, Height/blockDim.y);
 
-    dim3 numBlocks(Width + blockDim.x - 1) / blockDim.x, (Height + blockDim.y - 1) / blockDim.y;
+    dim3 numBlocks((Width  + blockDim.x - 1) / blockDim.x,
+               (Height + blockDim.y - 1) / blockDim.y);
+
 
     CUDA_CHECK_KERNEL((julia<<<numBlocks, blockDim>>>(ll, d, gpuPixels)));
 
