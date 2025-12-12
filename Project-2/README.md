@@ -288,6 +288,43 @@ Summary of Thread Counts up to max speedup (x):
 
 So the program scales well until the system becomes overburdened and the only way to get more performance would be to "throw more hardware at it"
 
+## Extra Credit: sdf
+
+To implement the extra credit optimization challenge, I used the help of ChatGPT to iteratively modify the baseline `sdf.cpp` program and tried to focus on understanding how the changes made would effect where exactly timing could be cut shorter. I treated this more like an exercise in push "levers" that I did not know the function of, with the trust of the machine to guide me through the process.
+
+According to ChatGPT, the largest gains came from removing unnecessary work in the hot loop (avoiding square root calculations by comparing squared distances, eliminating object construction and function calls inside the loop), and replacing the standard library RNG facilities with a lightweight, per-thread pseudorandom generator that still produces a uniform distribution in [0,1], and improving thread efficiency by reducing synchronization and cache contention.
+
+The above changes are WAY beyond my level and would not have been thought of, even if given all the time in the world. I just plain, do not have the experience level to know how to implement such code. That said, I do know what a benchmark is and while I didn't write the code, I did record each change in timing against previous versions as the code evolved and I noted them for their overall impact.
+
+I do not expect any actual extra credit for this, (it probably wouldn't win anyway) but it was an interesting process that, even though beyond what I could independently create, I learned a little bit more about how incrementally modifying algorithmic choices can lead to some serious performance improvements.
+
+### Results
+### sdf-fastest.cpp (fastest single-thread)
+Build:
+g++ -O3 -march=native -std=c++20 -pthread sdf-fastest.cpp -o sdf-fastest.out
+
+Run:
+./sdf-fastest.out -n 50000000 -t 1
+
+Timing:
+real 0.18
+user 0.18
+sys  0.00
+
+
+### sdf-speedup.cpp (best speedup)
+Build:
+g++ -O3 -march=native -std=c++20 -pthread sdf-speedup.cpp -o sdf-speedup.out
+
+Run:
+./sdf-speedup.out -n 50000000 -t 1
+./sdf-speedup.out -n 50000000 -t 8
+
+Timing:
+t=1 real 0.18
+t=8 real 0.03
+Speedup (t=1 / t=8): 6.0x
+
 ---
 ## Sources
 
