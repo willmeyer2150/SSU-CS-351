@@ -15,6 +15,8 @@
 
 - [Spinny](spinny.html)
 
+- [Shiny_Spiny](shiny_spiny.html)
+
 ## Notes
 
 This project contains several WebGL demo programs created for CS 351 Project 3.  
