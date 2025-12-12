@@ -153,7 +153,9 @@ int main(int argc, char* argv[]) {
     //   divide evenly in most cases, but we'll lose at most numThreads
     //   samples, which isn't a big deal if the numSamples is sufficiently
     //   large)
-    size_t chunkSize = numSamples / numThreads;
+
+    // Removed this line to make it faster
+    // size_t chunkSize = numSamples / numThreads;
 
     //-----------------------------------------------------------------------
     //
@@ -200,9 +202,14 @@ int main(int argc, char* argv[]) {
             // Added this line to make it faster
             uint64_t rng = 0x123456789ABCDEF0ull ^ (uint64_t)id * 0x9E3779B97F4A7C15ull;
             auto rand = [&]() { return rand01(rng); };
-            	
-		    size_t begin = id * chunkSize;
-		    size_t end = (id == threads.size() - 1) ? numSamples : begin + chunkSize;
+
+            // Removed this line to make it faster
+		    // size_t begin = id * chunkSize;
+		    // size_t end = (id == threads.size() - 1) ? numSamples : begin + chunkSize;
+
+            // Added this line to make it faster
+            size_t begin = (numSamples * id) / numThreads;
+            size_t end   = (numSamples * (id + 1)) / numThreads;
 
 		    size_t localCount = 0;
 
