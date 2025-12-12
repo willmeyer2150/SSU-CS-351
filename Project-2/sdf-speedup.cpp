@@ -27,14 +27,29 @@
 //
 
 bool sdf(vec3 p) {
+    // ---------- Replace this function with faster implementation ----------
+
     // Create a sphere centered inside of our cube
-    static const Sphere sphere(vec3(0.5), 0.5);
+    // static const Sphere sphere(vec3(0.5), 0.5);
     
     // Determine if the point is outside the sphere.  It's guaranteed
     //   to be inside the unit cube because of how the points are
     //   generated.
-    p -= sphere.center;
-    return p.length() > sphere.radius;
+    // p -= sphere.center;
+    // return p.length() > sphere.radius;
+
+    // ---------- New function with faster implementation ----------
+
+    // sphere center (0.5,0.5,0.5), radius 0.5 => r^2 = 0.25
+    p -= vec3(0.5);
+
+    // Avoid sqrt: compare squared distance instead of length()
+    const double d2 =
+        (double)p.x * (double)p.x +
+        (double)p.y * (double)p.y +
+        (double)p.z * (double)p.z;
+
+    return d2 > 0.25;
 }
 
 /////////////////////////////////////////////////////////////////////////////
